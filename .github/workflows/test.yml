@@ -31,11 +31,11 @@ jobs:
         run: chmod +x gradlew
         
       - name: Test
-        run: ./gradlew :common:test
+        run: ./gradlew test
 
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
           files: |
-            common/build/test-results/**/*.xml
+            build/test-results/**/*.xml

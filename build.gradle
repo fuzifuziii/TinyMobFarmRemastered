@@ -1,61 +1,94 @@
 plugins {
+    id "java"
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.9-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.9-SNAPSHOT"
+    id "maven-publish"
 }
 
 architectury {
     minecraft = rootProject.minecraft_version
 }
 
-subprojects {
-    apply plugin: "dev.architectury.loom"
+loom {
+    silentMojangMappingsLicense()
+    accessWidenerPath = file("src/main/resources/tinymobfarm.accesswidener")
+}
 
-    loom {
-        silentMojangMappingsLicense()
+base {
+    archivesName = rootProject.archives_base_name
+}
+
+version = rootProject.mod_version
+group = rootProject.maven_group
+
+repositories {
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
     }
-
-    dependencies {
-        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-        // The following line declares the mojmap mappings, you may use other mappings as well
-        mappings loom.officialMojangMappings()
-        // The following line declares the yarn mappings you may select this one as well.
-        // mappings "net.fabricmc:yarn:1.20.1+build.10:v2"
+    maven {
+        name = 'NeoForged'
+        url = 'https://maven.neoforged.net/releases'
     }
 }
 
-allprojects {
-    apply plugin: "java"
-    apply plugin: "architectury-plugin"
-    apply plugin: "maven-publish"
+dependencies {
+    minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+    // The following line declares the mojmap mappings, you may use other mappings as well
+    mappings loom.officialMojangMappings()
+    // The following line declares the yarn mappings you may select this one as well.
+    // mappings "net.fabricmc:yarn:1.20.1+build.10:v2"
 
-    base {
-        archivesName = rootProject.archives_base_name
+    neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
+    modApi "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
+
+    modImplementation "curse.maven:yaml-config-1128669:${project.config_library_file_neoforge}"
+    modImplementation "curse.maven:ui-933200:${project.ui_library_file_neoforge}"
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+    options.release = 21
+}
+
+java {
+    withSourcesJar()
+}
+
+task printVersionName {
+    doLast {
+        println version
     }
+}
 
-    version = rootProject.mod_version
-    group = rootProject.maven_group
+processResources {
+    var replaceProperties = [
+            "version": project.version,
+            "mod_id": project.mod_id,
+            "mod_name": project.mod_name,
+            "mod_description": project.mod_description,
+            "mod_author": project.mod_author,
 
-    repositories {
-        maven {
-            url "https://cursemaven.com"
-            content {
-                includeGroup "curse.maven"
-            }
-        }
+            "minecraft_version": project.minecraft_version,
+            "neoforge_version": project.neoforge_version,
+            "architectury_version": project.architectury_version,
+            "config_library_version": project.config_library_version,
+            "ui_library_version": project.ui_library_version
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties
     }
+}
 
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
-        options.release = 21
-    }
+remapJar {
+    atAccessWideners.add loom.accessWidenerPath.get().asFile.name
+    archiveClassifier = "neoforge"
+}
 
-    java {
-        withSourcesJar()
-    }
-
-    task printVersionName  {
-        doLast {
-            println version
-        }
-    }
+remapSourcesJar {
+    archiveClassifier = "neoforge-sources"
 }
