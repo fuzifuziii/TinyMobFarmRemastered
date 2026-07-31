@@ -106,15 +106,11 @@ public class LassoItem extends Item {
     public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltipFlag) {
         if (itemStack.has(TinyMobFarm.LASSO_DATA.get())) {
             LassoData data = itemStack.get(TinyMobFarm.LASSO_DATA.get());
-            list.add(TinyMobFarm.translatable("tooltip.release_mob.key", ChatFormatting.GRAY));
             list.add(TinyMobFarm.translatable("tooltip.mob_name.key", ChatFormatting.GRAY, getMobName(itemStack)));
-            list.add(TinyMobFarm.translatable("tooltip.mob_id.key", ChatFormatting.GRAY, data.mobId().toString()));
             list.add(TinyMobFarm.translatable("tooltip.health.key", ChatFormatting.GRAY, data.mobHealth(), data.mobMaxHealth()));
             if (data.mobHostile()) {
                 list.add(TinyMobFarm.translatable("tooltip.hostile.key", ChatFormatting.GRAY));
             }
-        } else {
-            list.add(TinyMobFarm.translatable("tooltip.capture.key", ChatFormatting.GRAY));
         }
     }
 

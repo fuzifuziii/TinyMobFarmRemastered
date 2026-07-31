@@ -20,12 +20,9 @@
 	"tinymobfarm.gui.redstone_disable": "Отключен редстоунсигналом",
 	"tinymobfarm.gui.no_lasso": "Вставьте лассо для активации.",
 
-	"tinymobfarm.tooltip.release_mob.key": "Щелкните правой кнопкой мыши на блоке, чтобы освободить моба.",
 	"tinymobfarm.tooltip.mob_name.key": "Moб: %s",
-	"tinymobfarm.tooltip.mob_id.key": "ID: %s",
 	"tinymobfarm.tooltip.health.key": "Здоровье: %d/%d",
 	"tinymobfarm.tooltip.hostile.key": "Моб враждебен.",
-	"tinymobfarm.tooltip.capture.key": "Щелкните правой кнопкой мыши по мобу, чтобы захватить.",
 
 	"tinymobfarm.tooltip.hold_shift": "Удерживайте SHIFT для статистики.",
 	"tinymobfarm.tooltip.farm_rate": "Создает добычу каждые %d секунд.",

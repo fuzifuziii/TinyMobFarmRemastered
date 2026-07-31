@@ -55,11 +55,9 @@ processResources {
             "mod_name": project.mod_name,
             "mod_description": project.mod_description,
             "mod_author": project.mod_author,
-            "mod_license": project.mod_license,
-            "mod_repository": project.mod_repository,
 
-            "neoforge_loader_version": project.neoforge_loader_version,
             "minecraft_version": project.minecraft_version,
+            "neoforge_version": project.neoforge_version,
             "architectury_version": project.architectury_version,
             "config_library_version": project.config_library_version,
             "ui_library_version": project.ui_library_version
@@ -96,53 +94,5 @@ remapSourcesJar {
 components.java {
     withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
         skip()
-    }
-}
-
-curseforge {
-    apiKey = System.getenv("CURSEFORGE_API_KEY")
-    project {
-        id = project.curse_forge_project_id
-        releaseType = project.release_type
-        changelogType = "markdown"
-        changelog = rootProject.file('changelog.md')
-
-        project.supported_minecraft_versions.split(',').each { version ->
-            addGameVersion version
-        }
-
-        addGameVersion "Java 21"
-        addGameVersion "NeoForge"
-
-        relations {
-            project.curseforge_dependencies.split(',').each { dep ->
-                requiredDependency dep.trim()
-            }
-        }
-
-        mainArtifact(remapJar) {
-            displayName = "$project.mod_name NeoForge $project.minecraft_version - $project.mod_version"
-        }
-
-        addArtifact(remapSourcesJar) {
-        }
-    }
-}
-
-modrinth {
-    token = System.getenv("MODRINTH_API_KEY")
-    projectId = project.modrinth_project_id
-    versionName = "$project.mod_name NeoForge $project.minecraft_version - $project.mod_version"
-    versionNumber = "$project.mod_version"
-    versionType = "$project.release_type"
-    uploadFile = remapJar
-    additionalFiles = [remapSourcesJar]
-    gameVersions = project.supported_minecraft_versions.split(',').toList()
-    loaders = ["neoforge"]
-    changelog = rootProject.file('changelog.md').text
-    dependencies {
-        project.modrinth_dependencies.split(',').each { dep ->
-            required.project dep
-        }
     }
 }

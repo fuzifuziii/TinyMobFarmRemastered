@@ -20,12 +20,9 @@
 	"tinymobfarm.gui.redstone_disable": "接收到红石信号，已关闭",
 	"tinymobfarm.gui.no_lasso": "请放入装有生物的套索",
 
-	"tinymobfarm.tooltip.release_mob.key": "对方块右键来放出生物",
 	"tinymobfarm.tooltip.mob_name.key": "生物名：%s",
-	"tinymobfarm.tooltip.mob_id.key": "ID: %s",
 	"tinymobfarm.tooltip.health.key": "血量: %d/%d",
 	"tinymobfarm.tooltip.hostile.key": "该生物具有攻击性",
-	"tinymobfarm.tooltip.capture.key": "对生物右键来捕捉",
 
 	"tinymobfarm.tooltip.hold_shift": "按%s<SHIFT>%s查看信息",
 	"tinymobfarm.tooltip.farm_rate": "每%d秒生成一次战利品",

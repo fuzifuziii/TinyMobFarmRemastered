@@ -57,7 +57,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: |
-            fabric/build/libs/*.jar
             neoforge/build/libs/*.jar
           name: ${{ steps.gradle_version.outputs.VERSION_NAME }}
           tag: ${{ steps.gradle_version.outputs.VERSION_NAME }}
